@@ -118,3 +118,21 @@ if you want to purchase some virtual servers,you can purchase by my aff link:
 ## Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/FranzKafkaYu/x-ui.svg)](https://starchart.cc/FranzKafkaYu/x-ui)
+
+# Docker or Podman
+
+```bash
+cd ~
+mkdir x-ui
+cd x-ui
+mkdir db
+mkdir cert
+
+podman network create --subnet 192.168.18.0/24 --gateway 192.168.18.1 wondersharenet
+
+podman run -itd --network=wondersharenet --ip 192.168.18.2 \
+    -v $PWD/db/:/etc/x-ui/ \
+    -v $PWD/cert/:/root/cert/ -p 8443:8443 -p 3725-4355:3725-4355 -p 54321:54321 -p 80:80\
+    --name x-ui --restart=unless-stopped \
+    ghcr.io/chiasetuyetvoi/x-ui-franzkafkayu:latest
+```
